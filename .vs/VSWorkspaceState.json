@@ -1,0 +1,10 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\.common",
+    "\\.common\\client",
+    "\\.common\\server"
+  ],
+  "SelectedNode": "\\.common\\client\\main.js",
+  "PreviewInSolutionExplorer": false
+}

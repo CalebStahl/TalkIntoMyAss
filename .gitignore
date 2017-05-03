@@ -1,1 +1,5 @@
 sftp-config.json
+.common/client/node_modules/
+.common/server/POST_MESSAGE/node_modules/
+.common/server/POST_LOGIN/node_modules/
+.common/server/GET_MESSAGE/node_modules/

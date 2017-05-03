@@ -1,0 +1,9 @@
+{
+  "name": "client",
+  "main": "main.js",
+  "dependencies": 
+  {
+    "readline-sync" : "^1.4.7",
+    "keypair" : "^1.0.1"
+  }
+}

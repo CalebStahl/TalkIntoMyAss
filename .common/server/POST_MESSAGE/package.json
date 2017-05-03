@@ -1,0 +1,7 @@
+{
+  "name": "POST_MESSAGE",
+  "main": "index.js",
+  "dependencies": {
+    "jsonwebtoken": "^5.7.0"
+  }
+}
