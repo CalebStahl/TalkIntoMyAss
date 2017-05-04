@@ -4,11 +4,9 @@ const readline = require('readline-sync');
 const keypair = require('keypair');
 const scrypt = require('scrypt');
 const crypto = require('crypto');
-//const https = require('https');
 const querystring = require('querystring');
-const request = require('request');
-
-const LOGOUT = false;
+const request = require('request-promise');
+const async = require('async');
 
 let privkey = null;
 let pubkey = null;
@@ -78,7 +76,7 @@ function CreateIdentity(data) {
     pair.contacts = [];
     //updates data using the obj reference
     //technically this is a very bad side effect
-    pair.alias = readline.question("What is your alias?");
+    pair.alias = readline.question("What is your alias? ");
     data.identities.push(pair);
     return pair;
 }
@@ -94,7 +92,6 @@ function RegisterIdentity(data) {
 
     let salt = crypto.randomBytes(20);
     let params = scrypt.paramsSync(0.1);
-    //let hash = scrypt.hashSync(password, params, 64, salt);
     let hash = scrypt.hashSync(password, { "N": 16, "r": 1, "p": 1 }, 64, salt);
     let info = {
         "identity" : pubkey,
@@ -102,29 +99,22 @@ function RegisterIdentity(data) {
         "salt" : salt.toString("base64")
     };
 
-    postBody = querystring.stringify(info);
-
+    postBody = JSON.stringify(info);
     let options = {
-        url: 'https://api.watchmyass.webcam/register',
-        method: 'POST',
-        header: {
-            "Content-Type": "application/json",
-            "Content-Length": postBody.length
-        },
+        uri: "https://kfyykbhyyj.execute-api.us-east-1.amazonaws.com/prod/register",
+        method: "POST",
+        json: true,
         body: info
     };
-
-    let postreq = request(options, (err, res, body) => {
-        console.log(JSON.stringify(err));
-        console.log(JSON.stringify(res));
-        console.log(JSON.stringify(body));
-    }).on('response', (res) => {
-
-        console.log(JSON.stringify(res));
+    return new Promise(function (resolve, reject) {
+        request(options, function (error, response, body) {
+            if (error) return reject(error);
+            resolve(body);
+        });
     });
 }
 
-function LoginIdentity(data) {
+async function LoginIdentity(data) {
     pair = SelectIdentity(data);
     privkey = pair.private;
     pubkey = pair.public;
@@ -133,11 +123,11 @@ function LoginIdentity(data) {
     password = readline.question("Input login password: ");
 
     //do login stuff...
-    
-    
-    JWT = {}
-
-    return JWT;
+    return new Promise(function (resolve, reject) {
+        let JWT = {};
+        //anything that requires async calls
+        resolve(JWT);
+    });
 }
 
 function AddContact(JWT) {
@@ -163,7 +153,7 @@ function SelectConversation(JWT) {
     //figure out the rest
 }
 
-function LoginMenu(data) {
+async function LoginMenu(data) {
     console.clear();
     let JWT = null;
     if (data.identities.length === 0) {
@@ -176,19 +166,21 @@ function LoginMenu(data) {
     }
     switch (ans) {
         case "0":
-            RegisterIdentity(data);
-            JWT = LoginIdentity(data);
+            await RegisterIdentity(data);
+            JWT = await LoginIdentity(data);
             break;
         case "1":
-            JWT = LoginIdentity(data);
+            JWT = await LoginIdentity(data);
             break;
     }
-    return JWT;
+    return new Promise((resolve, reject) => {
+        resolve(JWT);
+    });
 }
 
 function MainMenu(JWT) {
     console.clear();
-    let ans = null
+    let ans = null;
     if (contacts.length === 0) {
         ans = "0";
     } else {
@@ -211,10 +203,10 @@ function MainMenu(JWT) {
     return true;
 }
 
-function main() {
+async function main() {
     let data = LoadIdentity();
     while (true) {
-        let JWT = LoginMenu(data);
+        let JWT = await LoginMenu(data);
         let result = null;
         do {
             result = MainMenu(JWT);
