@@ -4,6 +4,9 @@
   "dependencies": 
   {
     "readline-sync" : "^1.4.7",
-    "keypair" : "^1.0.1"
+    "keypair": "^1.0.1",
+    "scrypt": "^6.0.3",
+    "querystring": "^0.2.0",
+    "request" : "^2.81.0"    
   }
 }

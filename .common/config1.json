@@ -1,0 +1,23 @@
+{
+  "identities": [
+    {
+      "private" : "abcde",
+      "public": "defgh",
+      "contacts": [
+        {
+          "public": "stuvw",
+          "alias" : "John"
+        },
+        {
+          "public": "xyz12",
+          "alias" : "Jack"
+        }
+      ]
+    },
+    {
+      "private" : "ijklm",
+      "public": "nopqr",
+      "contacts" : []
+    }
+  ]
+}

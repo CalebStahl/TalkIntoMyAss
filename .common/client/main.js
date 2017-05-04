@@ -2,6 +2,11 @@ const fs = require('fs');
 const assert = require('assert');
 const readline = require('readline-sync');
 const keypair = require('keypair');
+const scrypt = require('scrypt');
+const crypto = require('crypto');
+//const https = require('https');
+const querystring = require('querystring');
+const request = require('request');
 
 const LOGOUT = false;
 
@@ -60,7 +65,7 @@ function SelectIdentity(data) {
     else {
         console.log("Identities found:");
         for (var identity in Object.keys(data.identities)) {
-            console.log(identity + ": " + data.identities[identity].public)
+            console.log(identity + ": " + data.identities[identity].alias)
         }
 
         let ans = readline.question("Select one: ");
@@ -73,18 +78,50 @@ function CreateIdentity(data) {
     pair.contacts = [];
     //updates data using the obj reference
     //technically this is a very bad side effect
+    pair.alias = readline.question("What is your alias?");
     data.identities.push(pair);
     return pair;
 }
 
 function RegisterIdentity(data) {
-    pair = CreateIdentity();
+    pair = CreateIdentity(data);
     privkey = pair.private;
     pubkey = pair.public;
     contacts = pair.contacts;
-
+    
     password = readline.question("Input password for registration: ");
     //do register stuff...
+
+    let salt = crypto.randomBytes(20);
+    let params = scrypt.paramsSync(0.1);
+    //let hash = scrypt.hashSync(password, params, 64, salt);
+    let hash = scrypt.hashSync(password, { "N": 16, "r": 1, "p": 1 }, 64, salt);
+    let info = {
+        "identity" : pubkey,
+        "hash" : hash.toString("base64"),
+        "salt" : salt.toString("base64")
+    };
+
+    postBody = querystring.stringify(info);
+
+    let options = {
+        url: 'https://api.watchmyass.webcam/register',
+        method: 'POST',
+        header: {
+            "Content-Type": "application/json",
+            "Content-Length": postBody.length
+        },
+        body: info
+    };
+
+    let postreq = request(options, (err, res, body) => {
+        console.log(JSON.stringify(err));
+        console.log(JSON.stringify(res));
+        console.log(JSON.stringify(body));
+    }).on('response', (res) => {
+
+        console.log(JSON.stringify(res));
+    });
 }
 
 function LoginIdentity(data) {
@@ -96,6 +133,8 @@ function LoginIdentity(data) {
     password = readline.question("Input login password: ");
 
     //do login stuff...
+    
+    
     JWT = {}
 
     return JWT;
@@ -105,11 +144,11 @@ function AddContact(JWT) {
     console.clear();
     console.log("Add a Contact:")
     let alias = readline.question("Contact alias: ")
-    let public = readline.question("Contact public key: ")
+    let pub = readline.question("Contact public key: ")
     //also updates data using the contacts obj reference
     //technically this is a very bad side effect
     contacts.push({
-        "public": public,
+        "public": pub,
         "alias": alias
     });
 }
