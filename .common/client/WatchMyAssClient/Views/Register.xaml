@@ -1,0 +1,49 @@
+﻿<Page
+    x:Class="WatchMyAssClient.Views.Register"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WatchMyAssClient.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding Register, Source={StaticResource Locator}}"
+    x:Name="root"
+    mc:Ignorable="d">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="300"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="500"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock   Grid.Row="1"  Grid.Column="1" FontSize="40" FontFamily="Segoe UI" FontWeight="Light"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Text="Register with WatchMyAss"/>
+        <TextBox     Grid.Row="3"  Grid.Column="1" Text="{Binding Username, Mode=TwoWay}"
+                     PlaceholderText="Username"/>
+        <PasswordBox Grid.Row="5" Grid.Column="1" Password="{Binding Password, Mode=TwoWay}"
+                     PlaceholderText="Password"/>
+        <Grid Grid.Row="7" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="2" Command="{Binding OpenFileCommand}"  Content="Open File"/>
+            <TextBox Grid.Column="0" Text="{Binding File.Path}" IsEnabled="False"
+                     PlaceholderText="i.e. ``C:\rsa-2048bit-key-pair.pem''" />
+        </Grid>
+        <Button      Grid.Row="9" Grid.Column="1" CommandParameter="{Binding ElementName=root}"
+                     Command="{Binding RegisterCommand}" Content="Continue" HorizontalAlignment="Stretch"/>
+    </Grid>
+</Page>

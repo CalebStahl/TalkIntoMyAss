@@ -1,0 +1,7 @@
+{
+  "name": "POST_CHALLENGE",
+  "main": "index.js",
+  "dependencies": {
+    "async" : "^2.4.0"
+  }
+}

@@ -5,6 +5,6 @@
     "\\.common\\client",
     "\\.common\\server"
   ],
-  "SelectedNode": "\\.common\\client\\main.js",
+  "SelectedNode": "\\.common\\client\\package.json",
   "PreviewInSolutionExplorer": false
 }

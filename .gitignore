@@ -3,3 +3,7 @@ sftp-config.json
 .common/server/POST_MESSAGE/node_modules/
 .common/server/POST_LOGIN/node_modules/
 .common/server/GET_MESSAGE/node_modules/
+.common/client/WatchMyAssClient/bin/
+.common/client/WatchMyAssClient/obj/
+.common/server/GET_CHALLENGE/node_modules/
+.common/server/POST_AUTHENTICATE/node_modules/

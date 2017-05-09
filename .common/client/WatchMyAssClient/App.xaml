@@ -1,0 +1,10 @@
+﻿<Application
+    x:Class="WatchMyAssClient.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WatchMyAssClient"
+    RequestedTheme="Light">
+    <Application.Resources>
+        <vm:ViewModelLocator xmlns:vm="using:WatchMyAssClient.ViewModels" x:Key="Locator" />
+    </Application.Resources>
+</Application>

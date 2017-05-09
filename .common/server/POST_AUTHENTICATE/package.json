@@ -1,0 +1,8 @@
+{
+  "name": "POST_AUTHENTICATE",
+  "main": "index.js",
+  "dependencies": {
+    "async": "^2.4.0",
+    "jsonwebtoken": "^7.4.0"
+  }
+}
